@@ -1,0 +1,265 @@
+/* Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+/* Card */
+.login-card {
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: transform 0.25s ease;
+}
+
+.login-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Header */
+.login-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.login-logo {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 16px;
+  background: white;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.logo-img {
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+}
+
+.login-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.login-subtitle {
+  font-size: 15px;
+  color: #6b7280;
+}
+
+/* Role Selector */
+.role-selector {
+  display: flex;
+  background: #f1f5f9;
+  border-radius: 12px;
+  padding: 6px;
+  margin-bottom: 32px;
+}
+
+.role-btn {
+  flex: 1;
+  padding: 12px 0;
+  border: none;
+  background: transparent;
+  font-weight: 600;
+  font-size: 15px;
+  color: #64748b;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.role-btn.active {
+  background: white;
+  color: #1e40af;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.role-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 3px;
+  background: #3b82f6;
+  border-radius: 3px;
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+}
+
+.role-btn.active::after {
+  width: 60%;
+}
+
+/* Form */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-group {
+  margin-bottom: 8px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.form-input {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 15px;
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+.form-input::placeholder {
+  color: #9ca3af;
+}
+
+/* Password field */
+.password-wrapper {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.2s;
+}
+
+.password-toggle:hover {
+  color: #1e40af;
+}
+
+/* Submit Button */
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.25);
+  margin-top: 12px;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.35);
+  background: linear-gradient(90deg, #2563eb, #1d4ed8);
+}
+
+.login-btn:active {
+  transform: translateY(0);
+}
+
+/* Optional forgot link */
+.forgot-link {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+.forgot-link a {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.forgot-link a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 40px 24px;
+  }
+
+  .login-title {
+    font-size: 24px;
+  }
+}
+/* Loading button state */
+.login-btn.loading {
+  background: linear-gradient(90deg, #60a5fa, #3b82f6);
+  cursor: not-allowed;
+  opacity: 0.9;
+}
+
+.login-btn .spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.mr-2 {
+  margin-right: 8px;
+}
+
+/* Error message */
+.error-message {
+  color: #dc2626;
+  font-size: 14px;
+  margin-bottom: 16px;
+  text-align: center;
+  background: #fee2e2;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #fecaca;
+}

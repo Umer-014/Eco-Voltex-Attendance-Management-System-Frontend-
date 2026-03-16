@@ -1,0 +1,132 @@
+/* Container */
+.dashboard-container {
+  min-height: 100vh;
+  background-color: #f9fafb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.5rem 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Title */
+.dashboard-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 2rem;
+}
+
+/* Message Box */
+.message-box {
+  background-color: #dbeafe;
+  color: #1e40af;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  max-width: 24rem;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Attendance Card */
+.attendance-card {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 24rem;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease-in-out;
+}
+
+.attendance-card:hover {
+  transform: translateY(-5px);
+}
+
+.attendance-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 0.5rem;
+  color: #374151;
+}
+
+.attendance-info p {
+  margin-bottom: 0.5rem;
+  color: #4b5563;
+}
+
+.no-record {
+  font-style: italic;
+  color: #9ca3af;
+}
+
+/* Status Badge */
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.status-present {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.status-absent {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.status-late {
+  background-color: #fef3c7;
+  color: #78350f;
+}
+
+.status-default {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+/* Buttons */
+.button-group {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.btn {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  transition: background-color 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.check-in-btn {
+  background-color: #10b981;
+}
+
+.check-in-btn:hover {
+  background-color: #059669;
+}
+
+.check-out-btn {
+  background-color: #ef4444;
+}
+
+.check-out-btn:hover {
+  background-color: #dc2626;
+}
+
+.disabled {
+  background-color: #9ca3af !important;
+  cursor: not-allowed;
+}
