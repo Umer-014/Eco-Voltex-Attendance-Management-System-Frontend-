@@ -33,8 +33,6 @@ const EmployeeDashboard = () => {
     try {
       const data = await checkIn();
       setMessage(data.message);
-
-      // 🔥 IMPORTANT: Refresh data after action
       await fetchTodayAttendance();
     } catch (err) {
       setMessage(err.message);
@@ -48,8 +46,6 @@ const EmployeeDashboard = () => {
     try {
       const data = await checkOut();
       setMessage(data.message);
-
-      // 🔥 IMPORTANT: Refresh data after action
       await fetchTodayAttendance();
     } catch (err) {
       setMessage(err.message);
@@ -57,7 +53,7 @@ const EmployeeDashboard = () => {
     setLoading(false);
   };
 
-  // 🎯 STATUS LOGIC (FIXED)
+  // 🎯 STATUS LOGIC
   const status = attendance?.status || "";
   const isAbsent = status === "Absent";
   const isCheckedIn = !!attendance?.checkIn;
@@ -144,18 +140,17 @@ const EmployeeDashboard = () => {
 
         {/* ✅ BUTTONS */}
         <div className="dashboard-button-group">
-          {/* CHECK IN */}
           <button
             onClick={handleCheckIn}
             disabled={loading || isAbsent || isCheckedIn}
             className={`btn check-in-btn ${
               loading || isAbsent || isCheckedIn ? "disabled" : ""
             }`}
+            aria-label="Check In"
           >
             {loading && !isCheckedIn ? "Processing..." : "Check In"}
           </button>
 
-          {/* CHECK OUT */}
           <button
             onClick={handleCheckOut}
             disabled={loading || isAbsent || !isCheckedIn || isCheckedOut}
@@ -164,6 +159,7 @@ const EmployeeDashboard = () => {
                 ? "disabled"
                 : ""
             }`}
+            aria-label="Check Out"
           >
             {loading && isCheckedIn && !isCheckedOut
               ? "Processing..."
