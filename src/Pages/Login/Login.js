@@ -33,6 +33,10 @@ const handleSubmit = async (e) => {
       navigate("/employee/dashboard");
     }
 
+    if (data.user.role === "admin") {
+      navigate("/admin/dashboard");
+    }
+
   } catch (err) {
     setErrorMessage(err.message);
   } finally {
