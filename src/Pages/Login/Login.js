@@ -24,6 +24,7 @@ const handleSubmit = async (e) => {
 
   try {
     const data = await loginUser(email, password, selectedRole);
+    console.log("Login successful:", data);
 
     localStorage.setItem("token", data.token);
     localStorage.setItem("role", data.user.role);
@@ -34,7 +35,7 @@ const handleSubmit = async (e) => {
     }
 
     if (data.user.role === "admin") {
-      navigate("/admin/dashboard");
+      navigate("/admin");
     }
 
   } catch (err) {
