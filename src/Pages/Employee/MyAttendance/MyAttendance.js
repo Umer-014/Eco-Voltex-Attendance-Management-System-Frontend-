@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { getAttendance } from "../../../api/attendanceApi";
+import { getAttendance } from "../../../api/attendanceApi"; // Adjust path if needed
 import "./MyAttendance.css";
 
 const MyAttendance = () => {
@@ -10,7 +10,8 @@ const MyAttendance = () => {
 
   const fetchAttendance = async () => {
     try {
-      const data = await getAttendance();
+      // Mock data for testing if API is unavailable, otherwise use your API
+      const data = await getAttendance(); 
       setRecords(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Error fetching attendance:", error);
@@ -102,6 +103,7 @@ const MyAttendance = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="search-input"
+              aria-label="Search attendance records"
             />
           </div>
 
@@ -109,6 +111,7 @@ const MyAttendance = () => {
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
             className="filter-select"
+            aria-label="Filter by status"
           >
             <option value="all">All Records</option>
             <option value="present">Present Only</option>
@@ -141,17 +144,17 @@ const MyAttendance = () => {
               </thead>
               <tbody>
                 {filteredRecords.map((item) => (
-                  <tr key={item._id}>
-                    <td className="date-cell">
+                  <tr key={item._id || item.date}>
+                    {/* Added data-label for mobile view targeting */}
+                    <td data-label="Date">
                       {new Date(item.date).toLocaleDateString("en-GB", {
-                        weekday: "short",
                         day: "numeric",
                         month: "short",
                         year: "numeric",
                       })}
                     </td>
-                    <td className="day-cell">{item.day}</td>
-                    <td className="time-cell">
+                    <td data-label="Day">{item.day}</td>
+                    <td data-label="Check-In">
                       {item.checkIn
                         ? new Date(item.checkIn).toLocaleTimeString([], {
                             hour: "2-digit",
@@ -159,7 +162,7 @@ const MyAttendance = () => {
                           })
                         : "—"}
                     </td>
-                    <td className="time-cell">
+                    <td data-label="Check-Out">
                       {item.checkOut
                         ? new Date(item.checkOut).toLocaleTimeString([], {
                             hour: "2-digit",
@@ -167,12 +170,12 @@ const MyAttendance = () => {
                           })
                         : "—"}
                     </td>
-                    <td>
+                    <td data-label="Status">
                       <span className={getStatusClass(item.status)}>
                         {item.status || "—"}
                       </span>
                     </td>
-                    <td className="hours-cell">
+                    <td data-label="Hours Worked">
                       {item.workingHours ? `${item.workingHours.toFixed(1)} hrs` : "—"}
                     </td>
                   </tr>

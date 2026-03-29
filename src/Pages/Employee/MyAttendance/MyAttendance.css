@@ -32,6 +32,11 @@
   align-items: center;
   gap: 18px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
 }
 
 .stat-icon {
@@ -61,10 +66,9 @@
   font-weight: 500;
 }
 
+/* Attendance Card */
 .attendance-card {
-  width: 100%;                 /* FULL WIDTH */
-  max-width: 100%;             /* remove restriction */
-  margin: 0;                   /* remove center spacing */
+  width: 100%;
   border-radius: 20px;
   background: white;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
@@ -93,6 +97,7 @@
   border-radius: 12px;
   font-size: 15px;
   background: #f8fafc url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%2364758b' stroke-width='2.5'%3E%3Ccircle cx='10' cy='10' r='7'/%3E%3Cpath d='M21 21l-4.35-4.35'/%3E%3C/svg%3E") no-repeat 16px center;
+  box-sizing: border-box;
 }
 
 .search-input:focus {
@@ -108,25 +113,23 @@
   background: white;
   font-size: 15px;
   min-width: 170px;
+  box-sizing: border-box;
 }
 
-/* ==================== FULL WIDTH TABLE FIX ==================== */
+/* Table Container */
 .table-container {
   width: 100%;
-  overflow-x: auto;           /* Allows horizontal scroll on small screens */
-  padding: 0;                 /* Remove any extra padding */
+  padding: 0;
 }
 
 .attendance-table {
-  width: 100% !important;     /* Force full width */
+  width: 100%;
   border-collapse: collapse;
-  min-width: 1000px;          /* Ensures columns have enough space */
-  table-layout: fixed;        /* Better column distribution */
 }
 
 .attendance-table th,
 .attendance-table td {
-  padding: 18px 24px;
+  padding: 18px 20px;
   text-align: left;
   vertical-align: middle;
 }
@@ -148,18 +151,13 @@
   background: #f8fafc;
 }
 
-/* Column Widths for Better Look */
-.date-cell     { width: 22%; }
-.day-cell      { width: 12%; }
-.time-cell     { width: 14%; }
-.hours-cell    { width: 12%; }
-
 /* Status Badge */
 .status-badge {
   padding: 6px 16px;
   border-radius: 9999px;
   font-size: 13.5px;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .present { background: #d1fae5; color: #10b981; }
@@ -187,14 +185,82 @@
   to { transform: rotate(360deg); }
 }
 
-/* Responsive */
+/* ==================== RESPONSIVE DESIGN ==================== */
+
+/* Tablet & Mobile (under 768px) */
 @media (max-width: 768px) {
+  .attendance-page {
+    padding: 16px;
+  }
+
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on tablet */
+    gap: 12px;
+  }
+
+  /* Stack toolbar elements */
   .toolbar {
     flex-direction: column;
     align-items: stretch;
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .search-box {
+    min-width: 100%;
+  }
+
+  .filter-select {
+    width: 100%;
+  }
+
+  /* Mobile Table: Card Layout */
+  .attendance-table thead {
+    display: none; /* Hide table headers */
+  }
+
+  .attendance-table tbody tr {
+    display: block;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    margin: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+
+  .attendance-table tbody tr:hover {
+    background: white; /* Disable hover effect on mobile cards */
+  }
+
+  .attendance-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f1f5f9;
+    text-align: right; /* Values align to the right */
+  }
+
+  .attendance-table td:last-child {
+    border-bottom: none;
+  }
+
+  /* Display data labels on the left */
+  .attendance-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #475569;
+    text-align: left;
+    margin-right: 16px;
+  }
+}
+
+/* Small Mobile (under 480px) */
+@media (max-width: 480px) {
+  .stats-container {
+    grid-template-columns: 1fr; /* Stack stats in 1 column on very small phones */
   }
   
-  .search-box {
-    min-width: auto;
+  .stat-card {
+    padding: 16px;
   }
 }
