@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Eye, EyeOff, Loader2 } from "lucide-react"; // ← add Loader2 icon
+import { useNavigate } from "react-router-dom";
 import logoImg from "../../assets/logo1.png";
 import { loginUser } from "../../api/authApi";
 import "./Login.css";
@@ -13,27 +14,31 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false); // ← new
   const [errorMessage, setErrorMessage] = useState(""); // ← optional: show errors
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const navigate = useNavigate();
 
-    setIsLoading(true);
-    setErrorMessage("");
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      const data = await loginUser(email, password, selectedRole);
+  setIsLoading(true);
+  setErrorMessage("");
 
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("role", data.user.role);
+  try {
+    const data = await loginUser(email, password, selectedRole);
 
-      if (data.user.role === "employee") {
-        window.location.href = "EmployeeDashboard";
-      }
-    } catch (err) {
-      setErrorMessage(err.message);
-    } finally {
-      setIsLoading(false);
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("role", data.user.role);
+    localStorage.setItem("name", data.user.name);
+
+    if (data.user.role === "employee") {
+      navigate("/employee/dashboard");
     }
-  };
+
+  } catch (err) {
+    setErrorMessage(err.message);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
 
   return (

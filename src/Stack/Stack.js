@@ -1,24 +1,28 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "../Pages/Login/Login";
-import EmployeeDashboard from "../Pages/Employee/Dashboard/Dashboard";
+import EmployeeLayout from "../Pages/Employee/EmployeeLayout/EmployeeLayout";
+import Dashboard from "../Pages/Employee/Dashboard/Dashboard";
+import MyAttendance from "../Pages/Employee/MyAttendance/MyAttendance";
 import ProtectedRoute from "./ProtectedRoute";
 
 const Stack = () => {
   return (
     <Router>
       <Routes>
-        {/* Route Definitions */}
         <Route path="/" element={<Login />} />
+
         <Route
-          path="/EmployeeDashboard"
+          path="/employee"
           element={
             <ProtectedRoute role="employee">
-              <EmployeeDashboard />
+              <EmployeeLayout />
             </ProtectedRoute>
           }
-        />
-
+        >
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="attendance" element={<MyAttendance />} />
+        </Route>
       </Routes>
     </Router>
   );

@@ -1,0 +1,200 @@
+/* MyAttendance.css */
+
+/* Page Container */
+.attendance-page {
+  padding: 32px 24px;
+  max-width: 1280px;
+  margin: 0 auto;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+.page-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 28px;
+}
+
+/* Stats Cards */
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.stat-icon {
+  font-size: 28px;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+}
+
+.present .stat-icon { background: #d1fae5; color: #10b981; }
+.late .stat-icon { background: #fef3c7; color: #f59e0b; }
+.absent .stat-icon { background: #fee2e2; color: #ef4444; }
+.total .stat-icon { background: #e0f2fe; color: #3b82f6; }
+
+.stat-number {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.attendance-card {
+  width: 100%;                 /* FULL WIDTH */
+  max-width: 100%;             /* remove restriction */
+  margin: 0;                   /* remove center spacing */
+  border-radius: 20px;
+  background: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+/* Toolbar */
+.toolbar {
+  padding: 24px 28px;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.search-box {
+  flex: 1;
+  min-width: 280px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 14px 20px 14px 48px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 15px;
+  background: #f8fafc url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%2364758b' stroke-width='2.5'%3E%3Ccircle cx='10' cy='10' r='7'/%3E%3Cpath d='M21 21l-4.35-4.35'/%3E%3C/svg%3E") no-repeat 16px center;
+}
+
+.search-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  outline: none;
+}
+
+.filter-select {
+  padding: 14px 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: white;
+  font-size: 15px;
+  min-width: 170px;
+}
+
+/* ==================== FULL WIDTH TABLE FIX ==================== */
+.table-container {
+  width: 100%;
+  overflow-x: auto;           /* Allows horizontal scroll on small screens */
+  padding: 0;                 /* Remove any extra padding */
+}
+
+.attendance-table {
+  width: 100% !important;     /* Force full width */
+  border-collapse: collapse;
+  min-width: 1000px;          /* Ensures columns have enough space */
+  table-layout: fixed;        /* Better column distribution */
+}
+
+.attendance-table th,
+.attendance-table td {
+  padding: 18px 24px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.attendance-table th {
+  background: #f8fafc;
+  font-weight: 600;
+  color: #475569;
+  border-bottom: 2px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.attendance-table td {
+  border-bottom: 1px solid #f1f5f9;
+  color: #1e293b;
+}
+
+.attendance-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+/* Column Widths for Better Look */
+.date-cell     { width: 22%; }
+.day-cell      { width: 12%; }
+.time-cell     { width: 14%; }
+.hours-cell    { width: 12%; }
+
+/* Status Badge */
+.status-badge {
+  padding: 6px 16px;
+  border-radius: 9999px;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.present { background: #d1fae5; color: #10b981; }
+.late   { background: #fef3c7; color: #d97706; }
+.absent { background: #fee2e2; color: #ef4444; }
+
+/* Loading & Empty States */
+.loading-state, .empty-state {
+  padding: 80px 40px;
+  text-align: center;
+  color: #64748b;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e2e8f0;
+  border-top: 4px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .search-box {
+    min-width: auto;
+  }
+}
