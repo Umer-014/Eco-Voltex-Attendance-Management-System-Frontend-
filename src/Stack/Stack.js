@@ -10,6 +10,9 @@ import MyAttendance from "../Pages/Employee/MyAttendance/MyAttendance";
 
 // Admin
 import AdminLayout from "../Pages/Admin/AdminLayout/AdminLayout";
+import AdminDashboard from "../Pages/Admin/Dashboard/AdminDashboard";
+import AllAttendance from "../Pages/Admin/AllAttendance/AllAttendance";
+import Employees from "../Pages/Admin/Employees/Employees";
 
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -41,9 +44,11 @@ const Stack = () => {
             </ProtectedRoute>
           }
         >
-          
+          <Route index element={<AdminDashboard />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="attendance" element={<AllAttendance />} />
+          <Route path="employees" element={<Employees />} />
         </Route>
-
       </Routes>
     </Router>
   );

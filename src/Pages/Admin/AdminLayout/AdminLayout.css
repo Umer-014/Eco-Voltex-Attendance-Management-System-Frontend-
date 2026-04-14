@@ -1,0 +1,180 @@
+/* Layout */
+.admin-layout {
+  display: flex;
+  height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.admin-sidebar {
+  width: 240px;
+  background: #0f172a;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Sidebar Links */
+.admin-sidebar nav a {
+  display: block;
+  padding: 14px 15px;
+  margin-bottom: 8px;
+  text-decoration: none;
+  color: #cbd5f5;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-size: 15px;
+}
+
+.admin-sidebar nav a:hover {
+  background: #1e293b;
+  color: #fff;
+}
+
+.admin-sidebar nav a.active {
+  background: #3b82f6;
+  color: white;
+}
+
+/* Main Section */
+.admin-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f1f5f9;
+  transition: margin-left 0.3s ease;
+}
+
+/* Topbar */
+.admin-topbar {
+  height: 60px;
+  background: white;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  z-index: 10;
+}
+
+.admin-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.admin-topbar h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e2937;
+}
+
+/* Hamburger Button (pure CSS) */
+.admin-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.admin-hamburger span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background-color: #0f172a;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+/* Logout Button */
+.admin-logout-btn {
+  background: #ef4444;
+  border: none;
+  padding: 8px 20px;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.admin-logout-btn:hover {
+  background: #dc2626;
+}
+
+/* Content Area */
+.content {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* ==================== MOBILE RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  .admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: -260px;           /* hidden by default */
+    height: 100vh;
+    width: 260px;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.15);
+  }
+
+  .admin-sidebar.open {
+    left: 0;                /* slide in */
+  }
+
+  .admin-hamburger {
+    display: flex;
+  }
+
+  .admin-content {
+    padding: 15px;
+  }
+
+  /* Larger touch targets on mobile */
+  .sidebar nav a {
+    padding: 16px 20px;
+    font-size: 16px;
+  }
+}
+
+/* Mobile Overlay (backdrop) */
+.admin-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.6);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .admin-overlay.active {
+    display: block;
+    opacity: 1;
+  }
+}
