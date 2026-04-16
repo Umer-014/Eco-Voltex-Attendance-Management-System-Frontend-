@@ -14,24 +14,7 @@
   color: #1e293b;
 }
 
-.add-employee-btn {
-  background: #3b82f6;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: pointer;
-}
 
-.search-bar input {
-  width: 100%;
-  padding: 14px 20px;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  font-size: 16px;
-  margin-bottom: 28px;
-}
 
 .employee-grid {
   display: grid;
@@ -39,17 +22,7 @@
   gap: 20px;
 }
 
-.employee-card {
-  background: white;
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
+
 
 .employee-card:hover {
   transform: translateY(-4px);
@@ -122,7 +95,7 @@
   width: 100%;
   margin-top: 16px;
   padding: 14px;
-  background: #10b981;
+  background: #2243e8;
   color: white;
   border: none;
   border-radius: 10px;
@@ -137,108 +110,3 @@
   border-radius: 8px;
 }
 
-/* Modal */
-.modal-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-}
-
-.modal-content {
-  background: white;
-  width: 90%;
-  max-width: 460px;
-  border-radius: 20px;
-  padding: 32px;
-  position: relative;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-}
-
-.close-modal {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #64748b;
-}
-
-.modal-header {
-  text-align: center;
-  margin-bottom: 28px;
-}
-
-.modal-avatar {
-  width: 90px;
-  height: 90px;
-  background: #f1f5f9;
-  border-radius: 50%;
-  margin: 0 auto 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #3b82f6;
-}
-
-.modal-header h2 {
-  margin: 0;
-  font-size: 24px;
-}
-
-.modal-role {
-  color: #64748b;
-  font-weight: 500;
-}
-
-.modal-details .detail-row {
-  display: flex;
-  gap: 16px;
-  padding: 16px 0;
-  border-top: 1px solid #f1f5f9;
-}
-
-.modal-details strong {
-  display: block;
-  color: #475569;
-  font-size: 14px;
-}
-
-.loading {
-  text-align: center;
-  padding: 60px;
-  color: #64748b;
-}
-/* Delete Button */
-.delete-btn {
-  margin-top: 24px;
-  width: 100%;
-  padding: 12px;
-  background: #ef4444;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.delete-btn:hover {
-  background: #dc2626;
-}
-
-.error-message {
-  color: #ef4444;
-  background: #fee2e2;
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-}

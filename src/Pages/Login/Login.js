@@ -23,12 +23,14 @@ const handleSubmit = async (e) => {
   setErrorMessage("");
 
   try {
-    const data = await loginUser(email, password, selectedRole);
+    const data = await loginUser(email, password, selectedRole, );
     console.log("Login successful:", data);
 
     localStorage.setItem("token", data.token);
     localStorage.setItem("role", data.user.role);
     localStorage.setItem("name", data.user.name);
+    localStorage.setItem("employeeId", data.user.employeeId);
+    
 
     if (data.user.role === "employee") {
       navigate("/employee/dashboard");
@@ -53,7 +55,7 @@ const handleSubmit = async (e) => {
           <div className="login-logo">
             <img src={logoImg} alt="Company Logo" className="logo-img" />
           </div>
-          <h1 className="login-title">Attendance Management System</h1>
+          <h1 className="login-title">WorkForce Hub</h1>
           <p className="login-subtitle">
             Welcome back! Please sign in to continue.
           </p>

@@ -43,6 +43,27 @@ const EmployeeLayout = () => {
           >
             My Attendance
           </Link>
+
+          <Link
+            to="/employee/request-leave"
+            className={
+              location.pathname === "/employee/request-leave" ? "active" : ""
+            }
+            onClick={closeSidebar}
+          >
+            Request Leave
+          </Link>
+
+          <Link
+            to="/employee/my-leaves"
+            className={
+              location.pathname === "/employee/my-leaves" ? "active" : ""
+            }
+            onClick={closeSidebar}
+          >
+            My Leaves
+          </Link>
+
         </nav>
       </div>
 

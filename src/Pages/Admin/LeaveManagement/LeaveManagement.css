@@ -1,0 +1,148 @@
+.leave-page {
+  padding: 28px;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+.leave-header {
+  margin-bottom: 32px;
+}
+
+.leave-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.leave-header p {
+  color: #64748b;
+  font-size: 16px;
+}
+
+.leave-filters {
+  margin-bottom: 24px;
+}
+
+.leave-filters select {
+  padding: 12px 20px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 15px;
+  background: white;
+}
+
+.leave-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 24px;
+}
+
+.leave-card {
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.leave-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+.leave-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.employee-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.employee-info h3 {
+  margin: 0;
+  font-size: 19px;
+}
+
+.leave-status {
+  padding: 6px 16px;
+  border-radius: 9999px;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.status-approved {
+  background: #d1fae5;
+  color: #10b981;
+}
+
+.status-rejected {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+.status-pending {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.leave-details {
+  line-height: 1.8;
+  color: #475569;
+}
+
+.detail-row {
+  margin-bottom: 10px;
+}
+
+.leave-actions {
+  margin-top: 24px;
+  display: flex;
+  gap: 12px;
+}
+
+.approve-btn, .reject-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.approve-btn {
+  background: #10b981;
+  color: white;
+}
+
+.reject-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.approve-btn:hover {
+  background: #059669;
+}
+
+.reject-btn:hover {
+  background: #dc2626;
+}
+
+.no-leaves {
+  text-align: center;
+  padding: 60px;
+  color: #64748b;
+  font-size: 18px;
+}
+
+.leave-loading {
+  text-align: center;
+  padding: 60px;
+  color: #64748b;
+}

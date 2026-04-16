@@ -35,12 +35,36 @@ const AdminLayout = () => {
             All Attendance
           </Link>
           <Link
+            to="/admin/leave-management"
+            className={location.pathname.includes("/admin/leave-management") ? "active" : ""}
+            onClick={closeSidebar}
+          >
+            Leave Management
+          </Link>
+
+          <Link
+            to="/admin/staff-directory"
+            className={location.pathname.includes("/admin/staff-directory") ? "active" : ""}
+            onClick={closeSidebar}
+          >
+            Staff Directory
+          </Link>
+
+          <Link
             to="/admin/employees"
             className={location.pathname.includes("/admin/employees") ? "active" : ""}
             onClick={closeSidebar}
           >
-            Employees
+            Employees Creation
           </Link>
+          <Link
+            to="/admin/right-to-work"
+            className={location.pathname.includes("/admin/right-to-work") ? "active" : ""}
+            onClick={closeSidebar}
+          >
+            Check Right to Work
+          </Link>
+
         </nav>
       </div>
 

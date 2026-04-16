@@ -1,0 +1,134 @@
+.request-leave-page {
+  padding: 32px;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+.request-leave-header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.request-leave-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.request-leave-header p {
+  color: #64748b;
+  font-size: 17px;
+}
+
+.request-leave-card {
+  max-width: 680px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #374151;
+  font-size: 15px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.request-input,
+.request-select,
+.request-textarea {
+  width: 100%;
+  padding: 14px 18px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 15.5px;
+  transition: all 0.3s;
+}
+
+.request-input:focus,
+.request-select:focus,
+.request-textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+  outline: none;
+}
+
+.request-textarea {
+  resize: vertical;
+  min-height: 130px;
+}
+
+.request-submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(90deg, #10b981, #059669);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  transition: all 0.3s;
+}
+
+.request-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+}
+
+.request-submit-btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.request-message {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 12px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.request-message.success {
+  background: #d1fae5;
+  color: #10b981;
+}
+
+.request-message.error {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .request-leave-page {
+    padding: 20px;
+  }
+  
+  .request-leave-card {
+    padding: 28px 20px;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}

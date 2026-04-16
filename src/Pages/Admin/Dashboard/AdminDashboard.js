@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Users, Clock, UserCheck, UserX } from "lucide-react";
-import { getAttendance } from "../../../api/attendanceApi";
+import { getAllStaff} from "../../../api/authApi";
+import {getAttendance} from "../../../api/attendanceApi"
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
@@ -16,10 +17,12 @@ const AdminDashboard = () => {
 
   const fetchDashboardData = async () => {
     try {
-      const allRecords = await getAttendance();
+      const allRecords = await getAllStaff()  ;
+      const attendanceData = await getAttendance();
+      
       
       const today = new Date().toDateString();
-      const todayRecords = allRecords.filter(
+      const todayRecords = attendanceData.filter(
         (rec) => new Date(rec.date).toDateString() === today
       );
 
@@ -32,10 +35,10 @@ const AdminDashboard = () => {
       }, 0);
 
       // Get unique employees
-      const uniqueEmployees = new Set(allRecords.map(r => r.employeeId?._id || r.employeeId));
-
+      const uniqueEmployees = new Set(attendanceData.map(r => r.employeeId?._id || r.employeeId));
+      const totalEmployees = allRecords.filter(r => r.role === "employee").length;
       setStats({
-        totalEmployees: uniqueEmployees.size,
+        totalEmployees: totalEmployees,
         presentToday: present,
         lateToday: late,
         absentToday: absent,
@@ -43,7 +46,7 @@ const AdminDashboard = () => {
       });
 
       // Recent 8 records (sorted by date)
-      const sorted = [...allRecords]
+      const sorted = [...attendanceData]
         .sort((a, b) => new Date(b.date) - new Date(a.date))
         .slice(0, 8);
 
@@ -101,18 +104,12 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <div className="stat-card hours">
-          <div className="stat-icon">⏱️</div>
-          <div>
-            <div className="stat-number">{stats.totalHoursToday}</div>
-            <div className="stat-label">Total Hours Today</div>
-          </div>
-        </div>
+        
       </div>
 
       {/* Recent Activity */}
       <div className="recent-section">
-        <h2>Recent Activity</h2>
+        <h2>Recent Employee Activity</h2>
         <div className="recent-table-container">
           <table className="recent-table">
             <thead>
@@ -122,7 +119,7 @@ const AdminDashboard = () => {
                 <th>Check-In</th>
                 <th>Check-Out</th>
                 <th>Status</th>
-                <th>Hours</th>
+                
               </tr>
             </thead>
             <tbody>
@@ -145,7 +142,7 @@ const AdminDashboard = () => {
                       {record.status}
                     </span>
                   </td>
-                  <td>{record.workingHours ? record.workingHours.toFixed(1) : "0"}</td>
+                  
                 </tr>
               ))}
             </tbody>

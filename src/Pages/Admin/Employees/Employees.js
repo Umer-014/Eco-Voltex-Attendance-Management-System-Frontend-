@@ -1,14 +1,4 @@
 import React, { useState, useEffect } from "react";
-import {
-  User,
-  Calendar,
-  Phone,
-  Mail,
-  IdCard,
-  X,
-  Trash2,
-  MapPin,
-} from "lucide-react";
 import { registerUser, getAllStaff, deleteStaff } from "../../../api/authApi";
 import "./Employees.css";
 
@@ -20,7 +10,7 @@ const Employees = () => {
   const [error, setError] = useState("");
 
   // Registration Form State
-  const [showRegisterForm, setShowRegisterForm] = useState(false);
+  const [showRegisterForm, setShowRegisterForm] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -30,7 +20,7 @@ const Employees = () => {
     ContactPhone: "", // Fixed naming
     address: "",
     dateOfJoining: "",
-    shareCode: "",
+    
   });
   const [registerMessage, setRegisterMessage] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
@@ -55,21 +45,7 @@ const Employees = () => {
     fetchAllStaff();
   }, []);
 
-  // Filter employees
-  const filteredEmployees = employees.filter(
-    (emp) =>
-      emp.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      emp.employeeId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      emp.email?.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
-
-  const openEmployeeDetail = (employee) => {
-    setSelectedEmployee(employee);
-  };
-
-  const closeModal = () => {
-    setSelectedEmployee(null);
-  };
+  
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -103,7 +79,7 @@ const Employees = () => {
         formData.ContactPhone, // Fixed
         formData.address,
         formData.dateOfJoining,
-        formData.shareCode,
+       
       );
 
       setRegisterMessage("✅ Employee registered successfully!");
@@ -118,7 +94,7 @@ const Employees = () => {
         ContactPhone: "",
         address: "",
         dateOfJoining: "",
-        shareCode: "",
+        
       });
       setShowRegisterForm(false);
 
@@ -155,47 +131,12 @@ const Employees = () => {
     }
   };
 
-  // Delete Employee
-  const handleDelete = async () => {
-    if (!selectedEmployee) return;
-    if (
-      !window.confirm(
-        `Delete ${selectedEmployee.name}? This action cannot be undone.`,
-      )
-    )
-      return;
 
-    try {
-      const identifier = selectedEmployee._id || selectedEmployee.employeeId;
-      await deleteStaff(identifier);
-
-      alert("Employee deleted successfully");
-      closeModal();
-      fetchAllStaff();
-    } catch (err) {
-      alert("Delete failed: " + err.message);
-    }
-  };
 
   return (
     <div className="employees-page">
       <div className="page-header">
-        <h1>Employee Directory</h1>
-        <button
-          className="add-employee-btn"
-          onClick={() => setShowRegisterForm(!showRegisterForm)}
-        >
-          + Add New Employee
-        </button>
-      </div>
-
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Search by name, email or Employee ID..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+        <h1>Add New Employee</h1>
       </div>
 
       {error && <p className="error-message">{error}</p>}
@@ -203,7 +144,6 @@ const Employees = () => {
       {/* Registration Form */}
       {showRegisterForm && (
         <div className="register-form-card">
-          <h2>Add New Employee</h2>
           <form onSubmit={handleRegister}>
             <div className="form-grid">
               <div className="input-group">
@@ -299,20 +239,7 @@ const Employees = () => {
                   onChange={handleFormChange}
                 />
               </div>
-
               <div className="input-group">
-                <label>Share Code (Right to Work)</label>
-                <input
-                  type="text"
-                  name="shareCode"
-                  placeholder="Share Code"
-                  value={formData.shareCode}
-                  onChange={handleFormChange}
-                />
-              </div>
-            </div>
-
-            <div className="input-group">
               <label>Role</label>
               <select
                 name="role"
@@ -323,6 +250,9 @@ const Employees = () => {
                 <option value="admin">Admin</option>
               </select>
             </div>
+      
+            </div>
+
 
             <button
               type="submit"
@@ -343,132 +273,7 @@ const Employees = () => {
         </div>
       )}
 
-      {/* Employee List */}
-      {loading ? (
-        <p className="loading">Loading staff directory...</p>
-      ) : (
-        <div className="employee-grid">
-          {filteredEmployees.length === 0 ? (
-            <p className="no-results">No employees found.</p>
-          ) : (
-            filteredEmployees.map((emp) => (
-              <div
-                key={emp._id}
-                className="employee-card"
-                onClick={() => openEmployeeDetail(emp)}
-              >
-                <div className="avatar">
-                  <User size={32} />
-                </div>
-                <div className="employee-info">
-                  <h3>{emp.name}</h3>
-                  <p>
-                    <strong>ID:</strong> {emp.employeeId}
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {emp.email}
-                  </p>
-                  <span className={`role-badge ${emp.role}`}>{emp.role}</span>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
-      )}
-
-      {/* Employee Detail Modal */}
-      {selectedEmployee && (
-        <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="close-modal" onClick={closeModal}>
-              <X size={24} />
-            </button>
-
-            <div className="modal-header">
-              <div className="modal-avatar">
-                <User size={48} />
-              </div>
-              <h2>{selectedEmployee.name}</h2>
-              <p className="modal-role">{selectedEmployee.role}</p>
-              <p className="modal-id">
-                <strong>ID:</strong> {selectedEmployee.employeeId}
-              </p>
-            </div>
-
-            <div className="modal-details">
-              <div className="detail-row">
-                <Mail size={20} />
-                <div>
-                  <strong>Email</strong>
-                  <p>{selectedEmployee.email}</p>
-                </div>
-              </div>
-
-              {selectedEmployee.address && (
-                <div className="detail-row">
-                  <MapPin size={20} />
-                  <div>
-                    <strong>Address</strong>
-                    <p>{selectedEmployee.address}</p>
-                  </div>
-                </div>
-              )}
-
-              {selectedEmployee.dateOfBirth && (
-                <div className="detail-row">
-                  <Calendar size={20} />
-                  <div>
-                    <strong>Date of Birth</strong>
-                    <p>
-                      {new Date(
-                        selectedEmployee.dateOfBirth,
-                      ).toLocaleDateString("en-GB")}
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {selectedEmployee.dateOfJoining && (
-                <div className="detail-row">
-                  <Calendar size={20} />
-                  <div>
-                    <strong>Date of Joining</strong>
-                    <p>
-                      {new Date(
-                        selectedEmployee.dateOfJoining,
-                      ).toLocaleDateString("en-GB")}
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {selectedEmployee.shareCode && (
-                <div className="detail-row">
-                  <IdCard size={20} />
-                  <div>
-                    <strong>Share Code</strong>
-                    <p>{selectedEmployee.shareCode}</p>
-                  </div>
-                </div>
-              )}
-
-              {selectedEmployee.ContactPhone && (
-                <div className="detail-row">
-                  <Phone size={20} />
-                  <div>
-                    <strong>Contact Number</strong>
-                    <p>{selectedEmployee.ContactPhone}</p>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <button className="delete-btn" onClick={handleDelete}>
-              <Trash2 size={18} /> Delete Employee
-            </button>
-          </div>
-        </div>
-      )}
+      
     </div>
   );
 };

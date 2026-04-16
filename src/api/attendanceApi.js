@@ -60,5 +60,7 @@ export const getAttendance = async () => {
     throw new Error(data.message || "Failed to fetch attendance");
   }
 
+
   return data;
+
 };

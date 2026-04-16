@@ -1,0 +1,195 @@
+/* RightToWork.css - Unique rtw- prefix */
+
+.rtw-page {
+  padding: 28px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  min-height: 100vh;
+}
+
+.rtw-header {
+  margin-bottom: 40px;
+}
+
+.rtw-header-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.rtw-icon {
+  color: #3b82f6;
+}
+
+.rtw-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.rtw-subtitle {
+  color: #64748b;
+  font-size: 16px;
+  margin: 4px 0 0 0;
+}
+
+.rtw-main {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.rtw-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.rtw-card-header {
+  background: linear-gradient(90deg, #1e40af, #3b82f6);
+  color: white;
+  padding: 24px 32px;
+}
+
+.rtw-card-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.rtw-form {
+  padding: 40px 32px;
+}
+
+.rtw-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.rtw-input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.rtw-input-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.rtw-label {
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+  font-size: 14.5px;
+}
+
+.rtw-input,
+.rtw-select,
+.rtw-textarea {
+  padding: 14px 18px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 15.5px;
+  transition: all 0.3s ease;
+}
+
+.rtw-input:focus,
+.rtw-select:focus,
+.rtw-textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+  outline: none;
+}
+
+.rtw-textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.rtw-file-upload {
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.rtw-file-upload:hover {
+  border-color: #3b82f6;
+  background: #f8fafc;
+}
+
+.rtw-upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.rtw-file-count {
+  margin-top: 8px;
+  color: #10b981;
+  font-weight: 500;
+}
+
+.rtw-submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(90deg, #1e40af, #3b82f6);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+}
+
+.rtw-submit-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(59, 130, 246, 0.35);
+}
+
+.rtw-submit-btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.rtw-message {
+  margin-top: 20px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+}
+
+.rtw-message.success {
+  background: #ecfdf5;
+  color: #10b981;
+  border: 1px solid #a7f3d0;
+}
+
+.rtw-message.error {
+  background: #fef2f2;
+  color: #ef4444;
+  border: 1px solid #fecaca;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .rtw-page {
+    padding: 16px;
+  }
+  .rtw-form {
+    padding: 28px 20px;
+  }
+  .rtw-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
