@@ -34,7 +34,7 @@ const EmployeeLayout = () => {
             }
             onClick={closeSidebar}
           >
-            Dashboard
+            Today's Attendance
           </Link>
 
           <Link
@@ -54,7 +54,7 @@ const EmployeeLayout = () => {
             }
             onClick={closeSidebar}
           >
-            Request Leave
+            Leave Application
           </Link>
 
           <Link
