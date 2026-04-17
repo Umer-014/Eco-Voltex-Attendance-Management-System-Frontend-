@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Calendar, Clock, Send } from "lucide-react";
 import "./RequestLeave.css";
 import API_BASE_URL from "../../../api/config";
+import LeaveBalanceCard from "./LeaveBalanceCard";
 
 const RequestLeave = () => {
   const [formData, setFormData] = useState({
@@ -60,10 +61,19 @@ const RequestLeave = () => {
 
   return (
     <div className="request-leave-page">
+
+       
+        <div className="request-leave-header">
+          <h3>Leave Balance</h3>
+          <p className="subtitle">Current Year Overview</p>
+        </div>
+      <LeaveBalanceCard/>
       <div className="request-leave-header">
         <h1>Request Leave</h1>
         <p>Submit your leave application</p>
       </div>
+
+      
 
       <div className="request-leave-card">
         <form onSubmit={handleSubmit}>
