@@ -14,6 +14,9 @@ const AdminLayout = () => {
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const closeSidebar = () => setIsSidebarOpen(false);
 
+  const capitalize = (text) =>
+  text ? text.charAt(0).toUpperCase() + text.slice(1) : "";
+
   return (
     <div className="admin-layout">
       {/* Sidebar */}
@@ -80,7 +83,7 @@ const AdminLayout = () => {
               <span></span>
               <span></span>
             </button>
-            <h3>{greeting}, {name} 👋</h3>
+            <h3>{capitalize(greeting)}, {capitalize(name)} 👋</h3>
           </div>
 
           <button

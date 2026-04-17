@@ -17,6 +17,9 @@ const EmployeeLayout = () => {
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const closeSidebar = () => setIsSidebarOpen(false);
 
+  const capitalize = (text) =>
+  text ? text.charAt(0).toUpperCase() + text.slice(1) : "";
+
   return (
     <div className="layout">
       {/* Sidebar - slides in on mobile */}
@@ -85,7 +88,7 @@ const EmployeeLayout = () => {
             </button>
 
             <h3>
-              {greeting}, {name} 👋
+              {capitalize(greeting)}, {capitalize(name)} 👋
             </h3>
           </div>
 
