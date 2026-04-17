@@ -76,14 +76,16 @@ const AdminLayout = () => {
 
       {/* Main Content */}
       <div className="admin-main">
-        <div className="admin-topbar">
+        <div className="admin-topbar" style={{background: "gray"}}>
           <div className="admin-topbar-left">
             <button className="admin-hamburger" onClick={toggleSidebar}>
               <span></span>
               <span></span>
               <span></span>
             </button>
-            <h3>{capitalize(greeting)}, {capitalize(name)} 👋</h3>
+            <h3  style={{color: "white"}}>
+              {capitalize(greeting)}, {capitalize(name)} 👋
+            </h3>
           </div>
 
           <button

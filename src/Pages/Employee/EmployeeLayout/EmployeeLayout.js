@@ -78,7 +78,7 @@ const EmployeeLayout = () => {
       {/* Main Section */}
       <div className="main">
         {/* Topbar */}
-        <div className="topbar">
+        <div className="topbar" style={{background: "gray"}}>
           <div className="topbar-left">
             {/* Hamburger - only visible on mobile */}
             <button className="hamburger" onClick={toggleSidebar} aria-label="Toggle menu">
@@ -87,7 +87,7 @@ const EmployeeLayout = () => {
               <span></span>
             </button>
 
-            <h3>
+            <h3  style={{color: "white"}}>
               {capitalize(greeting)}, {capitalize(name)} 👋
             </h3>
           </div>
