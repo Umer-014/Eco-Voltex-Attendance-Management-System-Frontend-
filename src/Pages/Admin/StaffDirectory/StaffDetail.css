@@ -251,69 +251,231 @@
   color: #94a3b8;
 }
 
-/* Right to Work Tab */
-.rtw-info {
-  background: #f0f9ff;
+/* ==================== RIGHT TO WORK TAB - IMPROVED ==================== */
+
+.rtw-tab {
+  padding: 20px 0;
+}
+
+.current-rtw-card {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 2px solid #bae6fd;
+  border-radius: 20px;
   padding: 28px;
-  border-radius: 16px;
-  margin-bottom: 32px;
+  margin-bottom: 40px;
+  position: relative;
+  overflow: hidden;
 }
 
-.rtw-info h3 {
-  margin-top: 0;
-  color: #1e293b;
+.current-rtw-card .card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
 }
 
-.rtw-info p {
-  margin: 14px 0;
-  font-size: 16px;
+.current-rtw-card .card-header h3 {
+  margin: 0;
+  color: #0c4a6e;
+  font-size: 1.4rem;
 }
 
-.rtw-result {
-  font-weight: 700;
-  padding: 6px 16px;
+.status-badge {
+  padding: 8px 20px;
   border-radius: 9999px;
+  font-weight: 700;
   font-size: 15px;
+  text-transform: capitalize;
 }
 
-.rtw-result.unlimited { background: #d1fae5; color: #10b981; }
-.rtw-result.limited { background: #fef3c7; color: #f59e0b; }
-.rtw-result.no,
-.rtw-result.no-right { background: #fee2e2; color: #ef4444; }
-.rtw-result.pending { background: #f3e8ff; color: #8b5cf6; }
+.status-badge.unlimited { background: #10b981; color: white; }
+.status-badge.limited { background: #f59e0b; color: white; }
+.status-badge.no-right,
+.status-badge.no { background: #ef4444; color: white; }
+.status-badge.pending { background: #8b5cf6; color: white; }
 
-/* Evidence Section */
-.evidence-section h3 {
-  margin: 0 0 20px 0;
+.current-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px 32px;
+}
+
+.info-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-row .label {
+  font-size: 0.95rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.info-row .value {
+  font-size: 1.1rem;
   color: #1e293b;
+  font-weight: 600;
+}
+
+.info-row .font-mono {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.5px;
+}
+
+.notes-row .value {
+  font-style: italic;
+  color: #475569;
+}
+
+/* No RTW Card */
+.no-rtw-card {
+  background: #f8fafc;
+  border: 2px dashed #cbd5e1;
+  border-radius: 20px;
+  padding: 60px 40px;
+  text-align: center;
+  color: #64748b;
+}
+
+.no-rtw-card h3 {
+  margin: 16px 0 8px;
+  color: #334155;
+}
+
+/* History Section */
+.history-section .section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.history-section h3 {
+  margin: 0;
+  color: #1e293b;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.history-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.history-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.history-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.check-number {
+  font-weight: 700;
+  color: #1e40af;
+  font-size: 1.1rem;
+}
+
+.check-date {
+  color: #64748b;
+  font-size: 0.95rem;
+  margin-left: 12px;
+}
+
+.result-badge {
+  padding: 6px 18px;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.result-badge.unlimited { background: #d1fae5; color: #10b981; }
+.result-badge.limited { background: #fef3c7; color: #d97706; }
+.result-badge.no-right,
+.result-badge.no { background: #fee2e2; color: #ef4444; }
+
+/* History Details */
+.history-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.detail-label {
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.detail-value {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* Notes */
+.history-notes {
+  background: #f8fafc;
+  padding: 16px;
+  border-radius: 12px;
+  margin: 20px 0;
+  font-size: 0.98rem;
+  border-left: 4px solid #94a3b8;
+}
+
+/* Evidence */
+.evidence-section h4 {
+  margin: 20px 0 14px;
+  color: #334155;
+  font-size: 1.05rem;
 }
 
 .evidence-list {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 
 .evidence-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 22px;
+  padding: 16px 20px;
   background: #f8fafc;
-  border-radius: 14px;
   border: 1px solid #e2e8f0;
+  border-radius: 14px;
 }
 
-.evidence-item p {
-  margin: 0 0 6px 0;
-  font-weight: 500;
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #475569;
 }
 
-.evidence-item small {
-  color: #64748b;
-}
-
-.download-btn {
+.view-btn {
   background: #3b82f6;
   color: white;
   border: none;
@@ -323,22 +485,23 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-weight: 500;
+  font-size: 0.95rem;
   transition: background 0.2s;
 }
 
-.download-btn:hover {
+.view-btn:hover {
   background: #2563eb;
 }
 
-/* Loading & Error */
-.loading,
-.error {
+.empty-history {
   text-align: center;
-  padding: 80px 20px;
-  font-size: 18px;
+  padding: 60px 20px;
   color: #64748b;
+  background: #f8fafc;
+  border-radius: 16px;
 }
+
+
 
 /* Responsive */
 @media (max-width: 768px) {

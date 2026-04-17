@@ -14,6 +14,7 @@ import {
   Trash2,
   Download,
   View,
+    FileText,
 } from "lucide-react";
 import { getStaffByIdentifier, deleteStaff } from "../../../api/authApi";
 import "./StaffDetail.css";
@@ -57,26 +58,25 @@ const StaffDetail = () => {
     }
   };
 
+  const openFile = (fileUrl) => {
+    if (!fileUrl) return;
 
-const openFile = (fileUrl) => {
-  if (!fileUrl) return;
+    // Remove any existing fl_attachment flags to avoid conflicts
+    let url = fileUrl.replace(/\/fl_attachment:[^/]+\/?/g, "/");
 
-  // Remove any existing fl_attachment flags to avoid conflicts
-  let url = fileUrl.replace(/\/fl_attachment:[^/]+\/?/g, "/");
-
-  // For PDFs (raw), we want inline display if possible
-  if (url.includes("/raw/")) {
-    // Ensure fl_attachment:false for inline PDF view
-    if (!url.includes("fl_attachment:false")) {
-      url = url.replace("/upload/", "/upload/fl_attachment:false/");
+    // For PDFs (raw), we want inline display if possible
+    if (url.includes("/raw/")) {
+      // Ensure fl_attachment:false for inline PDF view
+      if (!url.includes("fl_attachment:false")) {
+        url = url.replace("/upload/", "/upload/fl_attachment:false/");
+      }
+    } else {
+      // For images: do NOT force fl_attachment:false (let browser preview normally)
+      url = url.replace("/fl_attachment:false/", "/");
     }
-  } else {
-    // For images: do NOT force fl_attachment:false (let browser preview normally)
-    url = url.replace("/fl_attachment:false/", "/");
-  }
 
-  window.open(url, "_blank");
-};
+    window.open(url, "_blank");
+  };
 
   if (loading) return <div className="loading">Loading profile...</div>;
   if (!staff) return <div className="error">Employee not found</div>;
@@ -240,58 +240,214 @@ const openFile = (fileUrl) => {
           </div>
         )}
 
-        {activeTab === "rtw" && staff.rightToWork?.checked && (
+        {activeTab === "rtw" && (
           <div className="rtw-tab">
-            <div className="rtw-info">
-              <h3>Right to Work Status</h3>
-              <p>
-                <strong>Share Code:</strong>{" "}
-                {staff.rightToWork.shareCode || "N/A"}
-              </p>
-              <p>
-                <strong>Result:</strong>
-                <span
-                  className={`rtw-result ${staff.rightToWork.checkResult?.toLowerCase().replace(/\s+/g, "-")}`}
-                >
-                  {staff.rightToWork.checkResult}
-                </span>
-              </p>
-              {staff.rightToWork.expiryDate && (
-                <p>
-                  <strong>Expiry Date:</strong>{" "}
-                  {new Date(staff.rightToWork.expiryDate).toLocaleDateString(
-                    "en-GB",
-                  )}
-                </p>
-              )}
-            </div>
+            {/* Current Status - Highlighted Card */}
+            {staff.currentRightToWork?.checked ? (
+              <div className="current-rtw-card">
+                <div className="card-header">
+                  <ShieldCheck size={24} />
+                  <h3>Current Right to Work Status</h3>
+                  <span
+                    className={`status-badge ${staff.currentRightToWork.checkResult?.toLowerCase().replace(/\s+/g, "-")}`}
+                  >
+                    {staff.currentRightToWork.checkResult}
+                  </span>
+                </div>
 
-            {staff.rightToWork.evidenceFiles?.length > 0 && (
-              <div className="evidence-section">
-                <h3>Supporting Documents</h3>
-                <div className="evidence-list">
-                  {staff.rightToWork.evidenceFiles.map((file, index) => (
-                    <div key={index} className="evidence-item">
-                      <div>
-                        <p>{file.originalName || `Document ${index + 1}`}</p>
-                        <small>
-                          Uploaded:{" "}
-                          {new Date(file.uploadedAt).toLocaleDateString(
-                            "en-GB",
-                          )}
-                        </small>
-                      </div>
-                      <button
-                        className="download-btn"
-                        onClick={() => openFile(file.fileUrl)}
-                      >
-                        <View size={18} /> View
-                      </button>
+                <div className="current-info-grid">
+                  <div className="info-row">
+                    <span className="label">Document Type</span>
+                    <span className="value">
+                      {staff.currentRightToWork.documentType || "N/A"}
+                    </span>
+                  </div>
+
+                  {staff.currentRightToWork.shareCode && (
+                    <div className="info-row">
+                      <span className="label">Share Code</span>
+                      <span className="value font-mono">
+                        {staff.currentRightToWork.shareCode}
+                      </span>
                     </div>
-                  ))}
+                  )}
+
+                  {staff.currentRightToWork.passportNumber && (
+                    <div className="info-row">
+                      <span className="label">Passport Number</span>
+                      <span className="value font-mono">
+                        {staff.currentRightToWork.passportNumber}
+                      </span>
+                    </div>
+                  )}
+
+                  {staff.currentRightToWork.brpNumber && (
+                    <div className="info-row">
+                      <span className="label">BRP Number</span>
+                      <span className="value font-mono">
+                        {staff.currentRightToWork.brpNumber}
+                      </span>
+                    </div>
+                  )}
+
+                  {staff.currentRightToWork.expiryDate && (
+                    <div className="info-row">
+                      <span className="label">Expiry Date</span>
+                      <span className="value">
+                        {new Date(
+                          staff.currentRightToWork.expiryDate,
+                        ).toLocaleDateString("en-GB")}
+                      </span>
+                    </div>
+                  )}
+
+                  {staff.currentRightToWork.notes && (
+                    <div className="info-row notes-row">
+                      <span className="label">Notes</span>
+                      <span className="value">
+                        {staff.currentRightToWork.notes}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
+            ) : (
+              <div className="no-rtw-card">
+                <ShieldCheck size={48} />
+                <h3>No Right to Work Check Recorded</h3>
+                <p>
+                  Perform a Right to Work check to update this employee's
+                  status.
+                </p>
+              </div>
             )}
+
+            {/* History Section */}
+            <div className="history-section">
+              <div className="section-header">
+                <h3>Check History ({staff.rightToWorkHistory?.length || 0})</h3>
+                {staff.rightToWorkHistory?.length > 0 && (
+                  <small>Most recent first</small>
+                )}
+              </div>
+
+              {staff.rightToWorkHistory?.length > 0 ? (
+                <div className="history-list">
+                  {staff.rightToWorkHistory
+                    .sort(
+                      (a, b) => new Date(b.checkDate) - new Date(a.checkDate),
+                    )
+                    .map((check, index) => (
+                      <div key={index} className="history-card">
+                        <div className="history-card-header">
+                          <div>
+                            <span className="check-number">
+                              Check #{index + 1}
+                            </span>
+                            <span className="check-date">
+                              {new Date(check.checkDate).toLocaleDateString(
+                                "en-GB",
+                                {
+                                  day: "numeric",
+                                  month: "short",
+                                  year: "numeric",
+                                },
+                              )}
+                            </span>
+                          </div>
+                          <span
+                            className={`result-badge ${check.checkResult?.toLowerCase().replace(/\s+/g, "-")}`}
+                          >
+                            {check.checkResult}
+                          </span>
+                        </div>
+
+                        <div className="history-details">
+                          <div className="detail-item">
+                            <span className="detail-label">Document Type</span>
+                            <span className="detail-value">
+                              {check.documentType}
+                            </span>
+                          </div>
+
+                          {check.shareCode && (
+                            <div className="detail-item">
+                              <span className="detail-label">Share Code</span>
+                              <span className="detail-value font-mono">
+                                {check.shareCode}
+                              </span>
+                            </div>
+                          )}
+
+                          {check.passportNumber && (
+                            <div className="detail-item">
+                              <span className="detail-label">Passport No.</span>
+                              <span className="detail-value font-mono">
+                                {check.passportNumber}
+                              </span>
+                            </div>
+                          )}
+
+                          {check.brpNumber && (
+                            <div className="detail-item">
+                              <span className="detail-label">BRP No.</span>
+                              <span className="detail-value font-mono">
+                                {check.brpNumber}
+                              </span>
+                            </div>
+                          )}
+
+                          {check.expiryDate && (
+                            <div className="detail-item">
+                              <span className="detail-label">Expiry Date</span>
+                              <span className="detail-value">
+                                {new Date(check.expiryDate).toLocaleDateString(
+                                  "en-GB",
+                                )}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+
+                        {check.notes && (
+                          <div className="history-notes">
+                            <strong>Notes:</strong> {check.notes}
+                          </div>
+                        )}
+
+                        {check.evidenceFiles?.length > 0 && (
+                          <div className="evidence-section">
+                            <h4>
+                              Supporting Documents ({check.evidenceFiles.length}
+                              )
+                            </h4>
+                            <div className="evidence-list">
+                              {check.evidenceFiles.map((file, i) => (
+                                <div key={i} className="evidence-item">
+                                  <div className="file-info">
+                                    <FileText size={18} />
+                                    <span>{file.originalName}</span>
+                                  </div>
+                                  <button
+                                    className="view-btn"
+                                    onClick={() => openFile(file.fileUrl)}
+                                  >
+                                    <View size={18} /> View
+                                  </button>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                </div>
+              ) : (
+                <div className="empty-history">
+                  <p>No previous Right to Work checks found.</p>
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>

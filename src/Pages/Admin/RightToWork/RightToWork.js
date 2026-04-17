@@ -12,8 +12,12 @@ import API_BASE_URL from "../../../api/config";
 
 const RightToWork = () => {
   const [employees, setEmployees] = useState([]);
+  // Add to formData state
   const [formData, setFormData] = useState({
     employeeId: "",
+    documentType: "passport",
+    passportNumber: "",
+    brpNumber: "",
     shareCode: "",
     checkResult: "Unlimited",
     expiryDate: "",
@@ -62,10 +66,18 @@ const RightToWork = () => {
 
     const data = new FormData();
     data.append("employeeId", formData.employeeId);
-    data.append("shareCode", formData.shareCode);
+    data.append("documentType", formData.documentType);
+
+    if (formData.passportNumber)
+      data.append("passportNumber", formData.passportNumber);
+    if (formData.brpNumber) data.append("brpNumber", formData.brpNumber);
+    if (formData.shareCode) data.append("shareCode", formData.shareCode);
+
     data.append("checkResult", formData.checkResult);
     if (formData.expiryDate) data.append("expiryDate", formData.expiryDate);
     if (formData.notes) data.append("notes", formData.notes);
+
+    
 
     files.forEach((file) => data.append("evidence", file));
 
@@ -94,7 +106,10 @@ const RightToWork = () => {
         });
         setFiles([]);
       } else {
-        setMessage({ type: "error", text: result.message || "Failed to save check" });
+        setMessage({
+          type: "error",
+          text: result.message || "Failed to save check",
+        });
       }
     } catch (err) {
       setMessage({ type: "error", text: "Server error. Please try again." });
@@ -110,7 +125,6 @@ const RightToWork = () => {
           <ShieldCheck size={36} className="rtw-icon" />
           <div>
             <h1 className="rtw-title">Right to Work Checks</h1>
-            
           </div>
         </div>
       </div>
@@ -121,7 +135,11 @@ const RightToWork = () => {
             <h2>Record New Right to Work Check</h2>
           </div>
 
-          <form onSubmit={handleSubmit} encType="multipart/form-data" className="rtw-form">
+          <form
+            onSubmit={handleSubmit}
+            encType="multipart/form-data"
+            className="rtw-form"
+          >
             <div className="rtw-form-grid">
               <div className="rtw-input-group">
                 <label className="rtw-label">Select Employee</label>
@@ -141,19 +159,68 @@ const RightToWork = () => {
                 </select>
               </div>
 
+              {/* Document Type */}
               <div className="rtw-input-group">
-                <label className="rtw-label">Share Code (GOV.UK)</label>
-                <input
-                  type="text"
-                  name="shareCode"
-                  placeholder="e.g., ABC123456789"
-                  value={formData.shareCode}
+                <label className="rtw-label">Document Type *</label>
+                <select
+                  name="documentType"
+                  value={formData.documentType}
                   onChange={handleInputChange}
                   required
-                  className="rtw-input"
-                />
+                  className="rtw-select"
+                >
+                  <option value="passport">Passport</option>
+                  <option value="eVisa">eVisa</option>
+                  <option value="BRP">BRP Card</option>
+                  <option value="shareCode">Share Code Only</option>
+                  <option value="other">Other</option>
+                </select>
               </div>
 
+              {/* Conditional Identifier Fields */}
+              {formData.documentType === "passport" && (
+                <div className="rtw-input-group">
+                  <label className="rtw-label">Passport Number *</label>
+                  <input
+                    type="text"
+                    name="passportNumber"
+                    value={formData.passportNumber || ""}
+                    onChange={handleInputChange}
+                    required
+                    className="rtw-input"
+                  />
+                </div>
+              )}
+
+              {formData.documentType === "BRP" && (
+                <div className="rtw-input-group">
+                  <label className="rtw-label">BRP Number *</label>
+                  <input
+                    type="text"
+                    name="brpNumber"
+                    value={formData.brpNumber || ""}
+                    onChange={handleInputChange}
+                    required
+                    className="rtw-input"
+                  />
+                </div>
+              )}
+
+              {(formData.documentType === "eVisa" ||
+                formData.documentType === "shareCode") && (
+                <div className="rtw-input-group">
+                  <label className="rtw-label">Share Code (GOV.UK) *</label>
+                  <input
+                    type="text"
+                    name="shareCode"
+                    placeholder="e.g., UK-123456789"
+                    value={formData.shareCode || ""}
+                    onChange={handleInputChange}
+                    required
+                    className="rtw-input"
+                  />
+                </div>
+              )}
               <div className="rtw-input-group">
                 <label className="rtw-label">Check Result</label>
                 <select
@@ -163,11 +230,12 @@ const RightToWork = () => {
                   className="rtw-select"
                 >
                   <option value="Unlimited">Unlimited Right to Work</option>
-                  <option value="Limited">Limited Right to Work (with expiry)</option>
+                  <option value="Limited">
+                    Limited Right to Work (with expiry)
+                  </option>
                   <option value="No Right">No Right to Work</option>
                 </select>
               </div>
-
               {formData.checkResult === "Limited" && (
                 <div className="rtw-input-group">
                   <label className="rtw-label">Expiry Date</label>
@@ -181,7 +249,6 @@ const RightToWork = () => {
                   />
                 </div>
               )}
-
               <div className="rtw-input-group full-width">
                 <label className="rtw-label">Supporting Evidence</label>
                 <div className="rtw-file-upload">
@@ -198,10 +265,11 @@ const RightToWork = () => {
                   </label>
                 </div>
                 {files.length > 0 && (
-                  <p className="rtw-file-count">{files.length} file(s) selected</p>
+                  <p className="rtw-file-count">
+                    {files.length} file(s) selected
+                  </p>
                 )}
               </div>
-
               <div className="rtw-input-group full-width">
                 <label className="rtw-label">Additional Notes</label>
                 <textarea
@@ -216,7 +284,9 @@ const RightToWork = () => {
             </div>
 
             <button type="submit" disabled={loading} className="rtw-submit-btn">
-              {loading ? "Recording Right to Work Check..." : "Save Right to Work Check"}
+              {loading
+                ? "Recording Right to Work Check..."
+                : "Save Right to Work Check"}
             </button>
           </form>
 
