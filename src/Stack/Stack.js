@@ -17,6 +17,7 @@ import AllAttendance from "../Pages/Admin/AllAttendance/AllAttendance";
 import Employees from "../Pages/Admin/Employees/Employees";
 import RightToWork from "../Pages/Admin/RightToWork/RightToWork";
 import StaffDirectory from "../Pages/Admin/StaffDirectory/StaffDirectory";
+import StaffDetail from "../Pages/Admin/StaffDirectory/StaffDetail";
 import LeaveManagement from "../Pages/Admin/LeaveManagement/LeaveManagement";
 
 
@@ -58,6 +59,7 @@ const Stack = () => {
           <Route path="employees" element={<Employees />} />
           <Route path="right-to-work" element={<RightToWork />} />
           <Route path="staff-directory" element={<StaffDirectory />} />
+          <Route path="staff/:id" element={<StaffDetail />} />
           <Route path="leave-management" element={<LeaveManagement />} />
         </Route>
       </Routes>
