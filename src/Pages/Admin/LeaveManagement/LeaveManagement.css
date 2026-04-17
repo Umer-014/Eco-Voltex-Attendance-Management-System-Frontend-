@@ -1,30 +1,30 @@
-.leave-page {
+.lm-page {
   padding: 28px;
   background: #f8fafc;
   min-height: 100vh;
 }
 
-.leave-header {
+.lm-header {
   margin-bottom: 32px;
 }
 
-.leave-header h1 {
+.lm-header h1 {
   font-size: 32px;
   font-weight: 700;
   color: #1e293b;
   margin-bottom: 8px;
 }
 
-.leave-header p {
+.lm-header p {
   color: #64748b;
   font-size: 16px;
 }
 
-.leave-filters {
+.lm-filters {
   margin-bottom: 24px;
 }
 
-.leave-filters select {
+.lm-filters select {
   padding: 12px 20px;
   border: 2px solid #e2e8f0;
   border-radius: 12px;
@@ -32,13 +32,13 @@
   background: white;
 }
 
-.leave-grid {
+.lm-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
   gap: 24px;
 }
 
-.leave-card {
+.lm-card {
   background: white;
   border-radius: 20px;
   padding: 24px;
@@ -46,67 +46,68 @@
   transition: all 0.3s ease;
 }
 
-.leave-card:hover {
+.lm-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
 }
 
-.leave-card-header {
+.lm-card-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 20px;
 }
 
-.employee-info {
+.lm-employee-info {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.employee-info h3 {
+.lm-employee-info h3 {
   margin: 0;
   font-size: 19px;
 }
 
-.leave-status {
+.lm-status {
   padding: 6px 16px;
   border-radius: 9999px;
   font-size: 13.5px;
   font-weight: 600;
 }
 
-.status-approved {
+.lm-status-approved {
   background: #d1fae5;
   color: #10b981;
 }
 
-.status-rejected {
+.lm-status-rejected {
   background: #fee2e2;
   color: #ef4444;
 }
 
-.status-pending {
+.lm-status-pending {
   background: #fef3c7;
   color: #d97706;
 }
 
-.leave-details {
+.lm-details {
   line-height: 1.8;
   color: #475569;
 }
 
-.detail-row {
+.lm-detail-row {
   margin-bottom: 10px;
 }
 
-.leave-actions {
+.lm-actions {
   margin-top: 24px;
   display: flex;
   gap: 12px;
 }
 
-.approve-btn, .reject-btn {
+.lm-approve-btn,
+.lm-reject-btn {
   flex: 1;
   padding: 12px;
   border: none;
@@ -116,33 +117,52 @@
   transition: all 0.3s;
 }
 
-.approve-btn {
+.lm-approve-btn {
   background: #10b981;
   color: white;
 }
 
-.reject-btn {
+.lm-reject-btn {
   background: #ef4444;
   color: white;
 }
 
-.approve-btn:hover {
+.lm-approve-btn:hover {
   background: #059669;
 }
 
-.reject-btn:hover {
+.lm-reject-btn:hover {
   background: #dc2626;
 }
 
-.no-leaves {
+.lm-no-leaves {
   text-align: center;
   padding: 60px;
   color: #64748b;
   font-size: 18px;
 }
 
-.leave-loading {
+.lm-loading {
   text-align: center;
   padding: 60px;
   color: #64748b;
+}
+
+.lm-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.lm-avatar-placeholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #475569;
 }
