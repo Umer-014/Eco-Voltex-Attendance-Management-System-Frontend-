@@ -44,7 +44,7 @@ const EmployeeLayout = () => {
             }
             onClick={closeSidebar}
           >
-            My Attendance
+            My Record
           </Link>
 
           <Link
