@@ -2,10 +2,26 @@ import React, { useEffect, useState } from "react";
 import { checkIn, checkOut, getAttendance } from "../../../api/attendanceApi";
 import "./Dashboard.css";
 
+// 🎯 Motivational Quotes
+const quotes = [
+  "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+  "Push yourself, because no one else is going to do it for you.",
+  "Great things never come from comfort zones.",
+  "Dream it. Wish it. Do it.",
+  "Stay positive, work hard, make it happen.",
+  "Don’t watch the clock; do what it does. Keep going.",
+  "Your limitation—it’s only your imagination.",
+  "Hard work beats talent when talent doesn’t work hard.",
+];
+
 const EmployeeDashboard = () => {
   const [attendance, setAttendance] = useState(null);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // ✅ New states for date & quote
+  const [todayDate, setTodayDate] = useState("");
+  const [quote, setQuote] = useState("");
 
   // 🔄 Fetch today's attendance
   const fetchTodayAttendance = async () => {
@@ -25,10 +41,33 @@ const EmployeeDashboard = () => {
 
   useEffect(() => {
     fetchTodayAttendance();
+
+    const today = new Date();
+
+    // 📅 Format date (UK style)
+    const formattedDate = today.toLocaleDateString("en-GB", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+
+    setTodayDate(formattedDate);
+
+    // 💬 Daily quote (same for whole day)
+    const dayIndex = today.getDate(); // 1–31
+    const randomQuote = quotes[dayIndex % quotes.length];
+
+    setQuote(randomQuote);
   }, []);
 
   // ✅ CHECK IN
   const handleCheckIn = async () => {
+    if (isBeforeEightAM()) {
+      setMessage("Check-in is only allowed after 8:00 AM.");
+      return;
+    }
+
     setLoading(true);
     try {
       const data = await checkIn();
@@ -72,9 +111,21 @@ const EmployeeDashboard = () => {
     }
   };
 
+  // ⏰ Check if current time is before 8:00 AM
+  const isBeforeEightAM = () => {
+    const now = new Date();
+    const hours = now.getHours();
+    return hours < 8;
+  };
+
   return (
     <div className="dashboard-container">
-      <h1 className="dashboard-title">Employee Dashboard</h1>
+      {/* ✅ Date + Quote */}
+      <div className="dashboard-header">
+        <h2 className="today-date">{todayDate}</h2>
+        <p className="quote-heading">"Today's Quote"</p>
+        <p className="quote">"{quote}"</p>
+      </div>
 
       {message && <div className="message-box">{message}</div>}
 
@@ -142,13 +193,23 @@ const EmployeeDashboard = () => {
         <div className="dashboard-button-group">
           <button
             onClick={handleCheckIn}
-            disabled={loading || isAbsent || isCheckedIn}
+            disabled={loading || isAbsent || isCheckedIn || isBeforeEightAM()}
             className={`btn check-in-btn ${
-              loading || isAbsent || isCheckedIn ? "disabled" : ""
+              loading || isAbsent || isCheckedIn || isBeforeEightAM()
+                ? "disabled"
+                : ""
             }`}
-            aria-label="Check In"
           >
-            {loading && !isCheckedIn ? "Processing..." : "Check In"}
+            {isBeforeEightAM()
+              ? "Available after 8:00 AM"
+              : loading && !isCheckedIn
+                ? "Processing..."
+                : "Check In"}
+            {isBeforeEightAM() && (
+              <p className="status-message warning">
+                You can check in only after <b>8:00 AM</b>.
+              </p>
+            )}
           </button>
 
           <button
@@ -159,7 +220,6 @@ const EmployeeDashboard = () => {
                 ? "disabled"
                 : ""
             }`}
-            aria-label="Check Out"
           >
             {loading && isCheckedIn && !isCheckedOut
               ? "Processing..."
