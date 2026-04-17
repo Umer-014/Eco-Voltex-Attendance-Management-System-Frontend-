@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { registerUser, getAllStaff, deleteStaff } from "../../../api/authApi";
 import "./Employees.css";
+import { Upload } from "lucide-react";
+import API_BASE_URL from "../../../api/config";
 
 const Employees = () => {
+  const delay = (ms) => new Promise((res) => setTimeout(res, ms));
   const [employees, setEmployees] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Registration Form State
+  // ✅ FIXED: single image instead of files[]
+  const [profileImage, setProfileImage] = useState(null);
+
+  // Form state
   const [showRegisterForm, setShowRegisterForm] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
@@ -17,15 +23,21 @@ const Employees = () => {
     password: "",
     role: "employee",
     dateOfBirth: "",
-    ContactPhone: "", // Fixed naming
+    ContactPhone: "",
     address: "",
     dateOfJoining: "",
-    
+    emergencyName: "",
+    emergencyPhone: "",
+    emergencyRelation: "",
+    rank: "",
   });
+
   const [registerMessage, setRegisterMessage] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
 
-  // Fetch All Staff
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Fetch staff
   const fetchAllStaff = async () => {
     setLoading(true);
     setError("");
@@ -33,36 +45,60 @@ const Employees = () => {
       const staffList = await getAllStaff();
       setEmployees(staffList);
     } catch (err) {
-      console.error("Failed to fetch staff:", err);
       setError(err.message || "Failed to load employees");
-      setEmployees([]);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchAllStaff();
+    setEmployees((prev) => [...prev]);
   }, []);
 
-  
-
-  const [showPassword, setShowPassword] = useState(false);
-
+  // Toggle password
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
   };
 
-  // Handle Registration
+  // Handle form input
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "ContactPhone") {
+      let cleaned = value.replace(/[^\d+]/g, "");
+
+      if (cleaned.includes("+") && !cleaned.startsWith("+")) {
+        cleaned = cleaned.replace(/\+/g, "");
+      }
+
+      if (cleaned.startsWith("+44")) {
+        cleaned = cleaned.slice(0, 13);
+      } else {
+        cleaned = cleaned.slice(0, 11);
+      }
+
+      setFormData({ ...formData, [name]: cleaned });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+
+  // ✅ Handle Profile Image
+  const handleFileChange = (e) => {
+    setProfileImage(e.target.files[0]);
+  };
+
+  // ✅ REGISTER + UPLOAD IMAGE
   const handleRegister = async (e) => {
     e.preventDefault();
     setRegisterMessage("");
     setIsRegistering(true);
 
-    // 🔴 UK PHONE VALIDATION
+    // Phone validation
     if (formData.ContactPhone) {
       const ukPhoneRegex = /^(?:\+44|0)7\d{9}$/;
       if (!ukPhoneRegex.test(formData.ContactPhone)) {
+        setIsRegistering(false);
         return setRegisterMessage(
           "❌ Invalid UK phone number (e.g. 07123456789 or +447123456789)",
         );
@@ -70,17 +106,39 @@ const Employees = () => {
     }
 
     try {
-      await registerUser(
+      // 🔹 Step 1: Register user
+      const res = await registerUser(
         formData.name,
         formData.email,
         formData.password,
         formData.role,
         formData.dateOfBirth,
-        formData.ContactPhone, // Fixed
+        formData.ContactPhone,
         formData.address,
         formData.dateOfJoining,
-       
+        formData.emergencyName,
+        formData.emergencyPhone,
+        formData.emergencyRelation,
+        formData.rank,
       );
+
+      const employeeId = res.user.employeeId;
+
+      // ✅ ADD THIS HERE (correct place)
+      setEmployees((prev) => [...prev, res.user]);
+
+      // ⏳ wait for DB sync
+      await delay(500);
+
+      if (profileImage) {
+        const imageData = new FormData();
+        imageData.append("profileImage", profileImage);
+
+        await fetch(`${API_BASE_URL}/register/staff/${employeeId}/profile`, {
+          method: "PUT",
+          body: imageData,
+        });
+      }
 
       setRegisterMessage("✅ Employee registered successfully!");
 
@@ -94,10 +152,14 @@ const Employees = () => {
         ContactPhone: "",
         address: "",
         dateOfJoining: "",
-        
+        emergencyName: "",
+        emergencyPhone: "",
+        emergencyRelation: "",
+        rank: "",
       });
-      setShowRegisterForm(false);
 
+      setProfileImage(null);
+      setShowRegisterForm(null);
       fetchAllStaff();
     } catch (err) {
       setRegisterMessage("❌ " + (err.message || "Registration failed"));
@@ -105,33 +167,6 @@ const Employees = () => {
       setIsRegistering(false);
     }
   };
-
-  const handleFormChange = (e) => {
-    const { name, value } = e.target;
-
-    if (name === "ContactPhone") {
-      // Allow only numbers and +
-      let cleaned = value.replace(/[^\d+]/g, "");
-
-      // Only allow + at start
-      if (cleaned.includes("+") && !cleaned.startsWith("+")) {
-        cleaned = cleaned.replace(/\+/g, "");
-      }
-
-      // Limit length based on format
-      if (cleaned.startsWith("+44")) {
-        cleaned = cleaned.slice(0, 13);
-      } else {
-        cleaned = cleaned.slice(0, 11);
-      }
-
-      setFormData({ ...formData, [name]: cleaned });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
-  };
-
-
 
   return (
     <div className="employees-page">
@@ -141,7 +176,6 @@ const Employees = () => {
 
       {error && <p className="error-message">{error}</p>}
 
-      {/* Registration Form */}
       {showRegisterForm && (
         <div className="register-form-card">
           <form onSubmit={handleRegister}>
@@ -151,12 +185,23 @@ const Employees = () => {
                 <input
                   type="text"
                   name="name"
-                  placeholder="Enter full name"
+                  placeholder="e.g. Jane Doe"
                   value={formData.name}
                   onChange={handleFormChange}
                   required
                 />
               </div>
+
+              <div className="input-group">
+                <label>Date of Birth</label>
+                <input
+                  type="date"
+                  name="dateOfBirth"
+                  value={formData.dateOfBirth}
+                  onChange={handleFormChange}
+                />
+              </div>
+
               <div className="input-group">
                 <label>Contact Phone</label>
                 <input
@@ -176,23 +221,73 @@ const Employees = () => {
                 <input
                   type="text"
                   name="address"
-                  placeholder="Full address"
+                  placeholder="e.g. 123 Main St, London"
                   value={formData.address}
                   onChange={handleFormChange}
                 />
               </div>
 
               <div className="input-group">
-                <label>Email Address</label>
+                <label>Emergency Contact Name</label>
+                <input
+                  type="text"
+                  name="emergencyName"
+                  placeholder="e.g. John Doe"
+                  value={formData.emergencyName}
+                  onChange={handleFormChange}
+                />
+              </div>
+
+              <div className="input-group">
+                <label>Emergency Contact Phone</label>
+                <input
+                  type="tel"
+                  name="emergencyPhone"
+                  placeholder="e.g. 07123456789 or +447123456789"
+                  value={formData.emergencyPhone}
+                  onChange={handleFormChange}
+                  pattern="^(?:07\d{9}|\+447\d{9})$"
+                  maxLength={13}
+                  required
+                />
+              </div>
+
+              <div className="input-group">
+                <label>Position</label>
+                <input
+                  type="text"
+                  name="rank"
+                  value={formData.rank}
+                  onChange={handleFormChange}
+                  placeholder="e.g. Manager, Driver, etc."
+                  required
+                />
+              </div>
+
+              <div className="input-group">
+                <label>Emergency Relation</label>
+                <input
+                  type="text"
+                  name="emergencyRelation"
+                  value={formData.emergencyRelation}
+                  onChange={handleFormChange}
+                  placeholder="e.g. Spouse, Parent, Friend"
+                  required
+                />
+              </div>
+
+              <div className="input-group">
+                <label>Email</label>
                 <input
                   type="email"
                   name="email"
-                  placeholder="example@company.com"
                   value={formData.email}
+                  placeholder="e.g. jane.doe@ecovoltex.co.uk"
                   onChange={handleFormChange}
                   required
                 />
               </div>
+
               <div className="input-group" style={{ position: "relative" }}>
                 <label>Password</label>
                 <input
@@ -221,13 +316,18 @@ const Employees = () => {
               </div>
 
               <div className="input-group">
-                <label>Date of Birth</label>
-                <input
-                  type="date"
-                  name="dateOfBirth"
-                  value={formData.dateOfBirth}
+                <label>Role</label>
+                <select
+                  name="role"
+                  value={formData.role}
                   onChange={handleFormChange}
-                />
+                  required
+                  placeholder="Select role"
+                >
+                  <option value="">Select role</option>
+                  <option value="employee">Employee</option>
+                  <option value="admin">Admin</option>
+                </select>
               </div>
 
               <div className="input-group">
@@ -237,43 +337,50 @@ const Employees = () => {
                   name="dateOfJoining"
                   value={formData.dateOfJoining}
                   onChange={handleFormChange}
+                  required
                 />
               </div>
-              <div className="input-group">
-              <label>Role</label>
-              <select
-                name="role"
-                value={formData.role}
-                onChange={handleFormChange}
-              >
-                <option value="employee">Employee</option>
-                <option value="admin">Admin</option>
-              </select>
-            </div>
-      
+
+              {/* ✅ PROFILE IMAGE */}
+              <div className="rtw-input-group full-width">
+                <label>Profile Picture</label>
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                />
+
+                {profileImage && (
+                  <>
+                    <p>{profileImage.name}</p>
+
+                    <img
+                      src={URL.createObjectURL(profileImage)}
+                      alt="preview"
+                      style={{
+                        width: "80px",
+                        marginTop: "10px",
+                        borderRadius: "8px",
+                      }}
+                    />
+                  </>
+                )}
+              </div>
             </div>
 
-
-            <button
-              type="submit"
-              disabled={isRegistering}
-              className="submit-btn"
-            >
+            <button type="submit" disabled={isRegistering}>
               {isRegistering ? "Registering..." : "Register Employee"}
             </button>
           </form>
 
           {registerMessage && (
-            <p
-              className={`register-message ${registerMessage.includes("✅") ? "success" : "error"}`}
-            >
+            <p className={registerMessage.includes("✅") ? "success" : "error"}>
               {registerMessage}
             </p>
           )}
         </div>
       )}
-
-      
     </div>
   );
 };

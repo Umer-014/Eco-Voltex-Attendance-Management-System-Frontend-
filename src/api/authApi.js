@@ -24,7 +24,7 @@ export const loginUser = async (email, password, role) => {
   return data;
 };
 
-export const registerUser = async (name, email, password, role,  dateOfBirth, ContactPhone, address, dateOfJoining, shareCode  ) => {
+export const registerUser = async (name, email, password, role,  dateOfBirth, ContactPhone, address, dateOfJoining, emergencyName, emergencyPhone, emergencyRelation, rank  ) => {
   const response = await fetch(`${API_BASE_URL}/register/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -37,7 +37,10 @@ export const registerUser = async (name, email, password, role,  dateOfBirth, Co
       ContactPhone,
       address,
       dateOfJoining,
-      shareCode 
+      emergencyName,
+      emergencyPhone,
+      emergencyRelation,
+      rank,
     }),
   });
 
