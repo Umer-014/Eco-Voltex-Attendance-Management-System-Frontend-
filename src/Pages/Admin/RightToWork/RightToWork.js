@@ -209,7 +209,7 @@ const RightToWork = () => {
               {(formData.documentType === "eVisa" ||
                 formData.documentType === "shareCode") && (
                 <div className="rtw-input-group">
-                  <label className="rtw-label">Share Code (GOV.UK) *</label>
+                  <label className="rtw-label">Share Code / Reference Code *</label>
                   <input
                     type="text"
                     name="shareCode"

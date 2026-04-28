@@ -59,7 +59,7 @@ const Stack = () => {
           <Route path="employees" element={<Employees />} />
           <Route path="right-to-work" element={<RightToWork />} />
           <Route path="staff-directory" element={<StaffDirectory />} />
-          <Route path="staff/:id" element={<StaffDetail />} />
+          <Route path="employee/:id" element={<StaffDetail />} />
           <Route path="leave-management" element={<LeaveManagement />} />
         </Route>
       </Routes>

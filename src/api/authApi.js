@@ -24,7 +24,7 @@ export const loginUser = async (email, password, role) => {
   return data;
 };
 
-export const registerUser = async (name, email, password, role,  dateOfBirth, ContactPhone, address, dateOfJoining, emergencyName, emergencyPhone, emergencyRelation, rank  ) => {
+export const registerUser = async (name, email, password, role,  dateOfBirth, ContactPhone, address, dateOfJoining, emergencyName, emergencyPhone, emergencyRelation, rank, nationality, passportNumber ) => {
   const response = await fetch(`${API_BASE_URL}/register/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -41,6 +41,8 @@ export const registerUser = async (name, email, password, role,  dateOfBirth, Co
       emergencyPhone,
       emergencyRelation,
       rank,
+      nationality,
+      passportNumber,
     }),
   });
 

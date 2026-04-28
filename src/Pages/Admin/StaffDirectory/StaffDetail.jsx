@@ -8,13 +8,13 @@ import {
   MapPin,
   Calendar,
   Briefcase,
-  Clock,
   ShieldCheck,
   Heart,
   Trash2,
-  Download,
   View,
-    FileText,
+  FileText,
+  Flag,
+  IdCard,
 } from "lucide-react";
 import { getStaffByIdentifier, deleteStaff } from "../../../api/authApi";
 import "./StaffDetail.css";
@@ -166,6 +166,19 @@ const StaffDetail = () => {
                       </span>
                     </div>
                   )}
+                  {staff.nationality && (
+                    <div>
+                      <Flag size={18} />
+                      <span>{staff.nationality}</span>
+                    </div>
+                  )}
+                  {staff.passportNumber && (
+                    <div>
+                      <IdCard size={18} />
+                      <span>{staff.passportNumber}</span>
+                    </div>
+                  )}
+
                   {staff.dateOfJoining && (
                     <div>
                       <Briefcase size={18} />
@@ -211,7 +224,17 @@ const StaffDetail = () => {
             <div className="leave-cards">
               <div className="leave-card annual">
                 <h3>Annual Leave</h3>
-                <div className="leave-number">
+                <div
+                  className="leave-number"
+                  style={{
+                    color:
+                      staff.leaveBalance.annual.remaining < 15
+                        ? "red"
+                        : staff.leaveBalance.annual.remaining < 25
+                          ? "orange"
+                          : "inherit",
+                  }}
+                >
                   {staff.leaveBalance.annual.remaining}
                 </div>
                 <p>days remaining</p>
@@ -233,6 +256,13 @@ const StaffDetail = () => {
                 <h3>Emergency Leave</h3>
                 <div className="leave-number">
                   {staff.leaveBalance.emergency.used}
+                </div>
+                <p>days used</p>
+              </div>
+              <div className="leave-card">
+                <h3>Unpaid Leave</h3>
+                <div className="leave-number">
+                  {staff.leaveBalance.unpaid.used}
                 </div>
                 <p>days used</p>
               </div>
@@ -265,7 +295,7 @@ const StaffDetail = () => {
 
                   {staff.currentRightToWork.shareCode && (
                     <div className="info-row">
-                      <span className="label">Share Code</span>
+                      <span className="label">Share Code / Reference Code</span>
                       <span className="value font-mono">
                         {staff.currentRightToWork.shareCode}
                       </span>
@@ -372,7 +402,9 @@ const StaffDetail = () => {
 
                           {check.shareCode && (
                             <div className="detail-item">
-                              <span className="detail-label">Share Code</span>
+                              <span className="detail-label">
+                                Share Code / Reference Code
+                              </span>
                               <span className="detail-value font-mono">
                                 {check.shareCode}
                               </span>

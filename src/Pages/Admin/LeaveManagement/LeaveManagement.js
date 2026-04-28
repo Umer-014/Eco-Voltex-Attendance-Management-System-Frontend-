@@ -100,7 +100,7 @@ const LeaveManagement = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${API_BASE_URL}/update-status`, {
+      const res = await fetch(`${API_BASE_URL}/leaves/update-status`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

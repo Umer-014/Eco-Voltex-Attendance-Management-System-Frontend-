@@ -64,3 +64,33 @@ export const getAttendance = async () => {
   return data;
 
 };
+
+// attendanceApi.js - FIXED VERSION
+// attendanceApi.js
+export const getAttendanceByEmployee = async (employeeId) => {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(
+    `${API_BASE_URL}/attendance/employee/${employeeId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "Failed to fetch attendance");
+  }
+
+  const data = await response.json();
+  
+  // FORCE return as array + log for debugging
+  const records = Array.isArray(data) ? data : [];
+  console.log(`✅ Fetched ${records.length} attendance records for employee ${employeeId}`, records);
+  
+  return records;
+};

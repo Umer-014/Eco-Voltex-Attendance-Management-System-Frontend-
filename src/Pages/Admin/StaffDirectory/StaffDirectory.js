@@ -46,7 +46,7 @@ const StaffDirectory = () => {
 
   const handleViewProfile = (member) => {
     const id = member.employeeId || member._id;
-    navigate(`/admin/staff/${id}`);
+    navigate(`/admin/employee/${id}`);
   };
 
   return (

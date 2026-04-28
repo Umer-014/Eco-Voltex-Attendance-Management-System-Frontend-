@@ -21,7 +21,7 @@ const Employees = () => {
     name: "",
     email: "",
     password: "",
-    role: "employee",
+    role: "",
     dateOfBirth: "",
     ContactPhone: "",
     address: "",
@@ -30,6 +30,8 @@ const Employees = () => {
     emergencyPhone: "",
     emergencyRelation: "",
     rank: "",
+    nationality: "",
+    passportNumber: "",
   });
 
   const [registerMessage, setRegisterMessage] = useState("");
@@ -120,7 +122,10 @@ const Employees = () => {
         formData.emergencyPhone,
         formData.emergencyRelation,
         formData.rank,
+        formData.nationality,
+        formData.passportNumber,
       );
+      console.log("Registration response:", res);
 
       const employeeId = res.user.employeeId;
 
@@ -147,7 +152,7 @@ const Employees = () => {
         name: "",
         email: "",
         password: "",
-        role: "employee",
+        role: "",
         dateOfBirth: "",
         ContactPhone: "",
         address: "",
@@ -156,6 +161,8 @@ const Employees = () => {
         emergencyPhone: "",
         emergencyRelation: "",
         rank: "",
+        nationality: "",
+        passportNumber: "",
       });
 
       setProfileImage(null);
@@ -228,6 +235,28 @@ const Employees = () => {
               </div>
 
               <div className="input-group">
+                <label>Nationality</label>
+                <input
+                  type="text"
+                  name="nationality"
+                  placeholder="e.g. British"
+                  value={formData.nationality}
+                  onChange={handleFormChange}
+                />
+              </div>
+
+              <div className="input-group">
+                <label>Passport Number</label>
+                <input
+                  type="text"
+                  name="passportNumber"
+                  placeholder="e.g. P1234567"
+                  value={formData.passportNumber}
+                  onChange={handleFormChange}
+                />
+              </div>
+
+              <div className="input-group">
                 <label>Emergency Contact Name</label>
                 <input
                   type="text"
@@ -248,18 +277,6 @@ const Employees = () => {
                   onChange={handleFormChange}
                   pattern="^(?:07\d{9}|\+447\d{9})$"
                   maxLength={13}
-                  required
-                />
-              </div>
-
-              <div className="input-group">
-                <label>Position</label>
-                <input
-                  type="text"
-                  name="rank"
-                  value={formData.rank}
-                  onChange={handleFormChange}
-                  placeholder="e.g. Manager, Driver, etc."
                   required
                 />
               </div>
@@ -328,6 +345,18 @@ const Employees = () => {
                   <option value="employee">Employee</option>
                   <option value="admin">Admin</option>
                 </select>
+              </div>
+
+              <div className="input-group">
+                <label>Position</label>
+                <input
+                  type="text"
+                  name="rank"
+                  value={formData.rank}
+                  onChange={handleFormChange}
+                  placeholder="e.g. Manager, Driver, etc."
+                  required
+                />
               </div>
 
               <div className="input-group">
