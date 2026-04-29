@@ -119,21 +119,27 @@ const AllAttendance = () => {
 
   // Stats
   const stats = useMemo(() => {
-    const totalHours = monthlyRecords.reduce(
+    const totalHours = filteredRecords.reduce(
       (sum, r) => sum + (r.workingHours || 0),
       0,
     );
-    const present = monthlyRecords.filter(
+
+    const present = filteredRecords.filter(
       (r) => r.status?.toLowerCase() === "present",
     ).length;
-    const late = monthlyRecords.filter(
+
+    const late = filteredRecords.filter(
       (r) => r.status?.toLowerCase() === "late",
     ).length;
-    const absent = monthlyRecords.filter(
+
+    const absent = filteredRecords.filter(
       (r) => r.status?.toLowerCase() === "absent",
     ).length;
-    const totalDays = monthlyRecords.length;
+
+    const totalDays = filteredRecords.length;
+
     const avgHours = totalDays ? (totalHours / totalDays).toFixed(1) : "0.0";
+
     const attendanceRate = totalDays
       ? ((present / totalDays) * 100).toFixed(1)
       : "0";
@@ -147,7 +153,7 @@ const AllAttendance = () => {
       avgHours,
       attendanceRate,
     };
-  }, [monthlyRecords]);
+  }, [filteredRecords]);
 
   // Chart Data
   const chartData = useMemo(() => {
@@ -372,7 +378,7 @@ const AllAttendance = () => {
       </div>
 
       {/* Employee Filter */}
-      
+
       {/* Filters */}
       <div className="filters">
         <div className="search-box">
@@ -429,8 +435,6 @@ const AllAttendance = () => {
           </div>
         </div>
       </div>
-
-      
 
       {/* Table */}
       {loading ? (
