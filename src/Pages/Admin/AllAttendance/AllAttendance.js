@@ -372,19 +372,28 @@ const AllAttendance = () => {
       </div>
 
       {/* Employee Filter */}
-      <div className="employee-filter">
-        <label>Select Employee: </label>
+      
+      {/* Filters */}
+      <div className="filters">
+        <div className="search-box">
+          <Search size={18} className="search-icon" />
+          <input
+            type="text"
+            placeholder="Search by name, day or ID..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
         <select
-          value={selectedEmployeeId}
-          onChange={(e) => setSelectedEmployeeId(e.target.value)}
-          className="employee-select"
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          className="filter-select"
         >
-          <option value="all">All Employees</option>
-          {employees.map((emp) => (
-            <option key={emp._id} value={emp._id}>
-              {emp.name} ({emp.employeeId})
-            </option>
-          ))}
+          <option value="all">All Status</option>
+          <option value="present">Present</option>
+          <option value="late">Late</option>
+          <option value="absent">Absent</option>
         </select>
       </div>
 
@@ -421,29 +430,7 @@ const AllAttendance = () => {
         </div>
       </div>
 
-      {/* Filters */}
-      <div className="filters">
-        <div className="search-box">
-          <Search size={18} className="search-icon" />
-          <input
-            type="text"
-            placeholder="Search by name, day or ID..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-
-        <select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          className="filter-select"
-        >
-          <option value="all">All Status</option>
-          <option value="present">Present</option>
-          <option value="late">Late</option>
-          <option value="absent">Absent</option>
-        </select>
-      </div>
+      
 
       {/* Table */}
       {loading ? (
